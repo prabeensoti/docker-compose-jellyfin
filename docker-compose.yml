@@ -1,0 +1,26 @@
+version: '3.5'
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    # user: uid:gid
+    network_mode: 'host'
+    volumes:
+      - jellyfin_config:/config
+      - jellyfin_cache:/cache
+      - /media/electron:/media
+    restart: 'unless-stopped'
+    # Optional - alternative address used for autodiscovery
+    # environment:
+      # - JELLYFIN_PublishedServerUrl=http://192.168.0.15
+    # Optional - may be necessary for docker healthcheck to pass if running in host network mode
+    # ports:
+      # - 8096:8096
+      # - 8920:8920 #optional
+      # - 7359:7359/udp #optional
+      # - 1900:1900/udp #optional
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+volumes:
+  jellyfin_cache:
+  jellyfin_config:
